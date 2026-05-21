@@ -1,0 +1,503 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    font-size: 19px;
+    min-height: 100%;
+    background-color: #f4f4f4;
+}
+header{
+    background-color: #222;
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+    padding: 14px 0;
+}
+header h1 {
+    margin: 0;
+    font-size: 24px;
+    color: #fff;
+}
+main{
+    min-height: calc(100vh - 57px);
+}
+footer{
+    display: none;
+}
+p{
+    margin: 0;
+    font-size: 14px;
+}
+ul{
+    padding: 0;
+    border-top: 1px solid #000000;
+    display:table;  /* 定義 */
+    table-layout: fixed;
+    width:100%;
+}
+li{
+    list-style-type:none;
+    border: 1px solid #666;
+    background-color: #FFF;
+    display:table-cell;  /* 定義 */
+    cursor: pointer;
+}
+li:hover{
+    background: #0066CC;
+    color:#fff;
+}
+
+.game_board {
+    display: grid;
+    grid-template-columns: 250px minmax(520px, 1fr) 260px;
+    align-items: stretch;
+    padding: 0 16px 0 16px;
+    min-height: calc(100vh - 57px);
+    box-sizing: border-box;
+}
+
+.left_side {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    border-left: 1px solid #ccc;
+    background-color: #fff;
+}
+
+.status{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 18px;
+    border-bottom: 1px solid #ccc;
+    flex: 1;
+    min-height: 0;
+    background-color: #fff;
+}
+
+.status h2 {
+    margin: 0 0 8px;
+    font-size: 17px;
+}
+
+.player_hp,
+.enemy_hp {
+    font-size: 15px;
+    margin-bottom: 8px;
+}
+
+.hp_bar {
+    width: 180px;
+    height: 14px;
+    background-color: #e5e5e5;
+    border: 1px solid #bbb;
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.hp_bar_fill {
+    width: 100%;
+    height: 100%;
+    background-color: #2eb872;
+    transition: width 0.25s ease;
+}
+
+.enemy_hp_bar {
+    background-color: #e95050;
+}
+
+.player,
+.enemy {
+    flex: 0 0 190px;
+}
+
+.enemy {
+    text-align: left;
+}
+
+.player_image img,
+.enemy_image img {
+    max-width: 160px;
+    width: 100%;
+    height: auto;
+}
+
+.hand_result {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    gap: 40px;
+    min-width: 320px;
+}
+
+.hand_result_item {
+    width: 160px;
+    text-align: center;
+}
+
+.hand_result_item img {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+}
+
+.hand_result_item img[src=""] {
+    display: none;
+}
+
+.hand_result_item p {
+    margin-top: 8px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.vs_area {
+    min-width: 130px;
+    text-align: center;
+}
+
+.vs_text {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+#damage_summary {
+    min-height: 24px;
+    margin-top: 8px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+#damage_summary.damage_win {
+    color: #1f9b5f;
+}
+
+#damage_summary.damage_lose,
+#damage_summary.damage_miss {
+    color: #d63f3f;
+}
+
+#damage_summary.damage_draw {
+    color: #c47a16;
+}
+
+.start_btn{
+    display: block;
+    margin: 0 auto;
+    padding: 10px 18px;
+    font-size: 17px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.janken {
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+    min-height: 230px;
+    background-color: #fff;
+}
+
+.start_button {
+    width: 100%;
+}
+
+#countdown {
+    font-size: 20px;
+    text-align: center;
+    padding: 6px 0;
+    min-height: 32px;
+}
+
+.janken_btns{
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 16px;
+}
+
+.janken_btn{
+    width: 120px;
+    height: 120px;
+    padding: 10px 14px;
+    font-size: 18px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 95px;
+    cursor: pointer;
+    display: none; /* 初期状態では非表示 */
+}
+
+.rule_panel {
+    margin-left: -16px;
+    padding: 18px 14px 18px 16px;
+    border-top: none;
+    background-color: #f6f1e8;
+}
+
+.rule_panel h2 {
+    margin: 0 0 10px;
+    font-size: 17px;
+}
+
+.rule_intro {
+    margin-bottom: 12px;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.rule_grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+
+.rule_card {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #fffdf8;
+}
+
+.rule_grid h3 {
+    margin: 0 0 6px;
+    font-size: 14px;
+}
+
+.rule_grid p {
+    font-size: 13px;
+    line-height: 1.5;
+    padding: 2px 0;
+}
+
+.rule_grid strong {
+    font-size: 14px;
+}
+
+.rule_row {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 5px 0;
+    border-bottom: 1px solid #e5e5e5;
+    font-size: 13px;
+}
+
+.rule_row:last-child {
+    border-bottom: none;
+}
+
+.rule_row strong {
+    white-space: nowrap;
+}
+
+.rule_miss strong {
+    color: #d63f3f;
+}
+
+.rule_formula {
+    background-color: #f4f8ff;
+}
+
+#result_area {
+    width: auto;
+    margin-right: -16px;
+    text-align: left;
+    font-size: 15px;
+    padding: 18px 16px 18px 18px;
+    border-left: 1px solid #ccc;
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+#result_area h2 {
+    margin: 0 0 12px;
+    font-size: 17px;
+}
+
+#result_area p {
+    margin: 0;
+    padding: 2px 0;
+}
+
+#result_area span {
+    font-weight: bold;
+    color: #333;
+}
+
+#result_area.result_win {
+    border-left-color: #2eb872;
+    background-color: #f0fff6;
+}
+
+#result_area.result_lose {
+    border-left-color: #e95050;
+    background-color: #fff4f4;
+}
+
+#result_area.result_draw {
+    border-left-color: #f0ad4e;
+    background-color: #fff9ed;
+}
+
+#result_area.result_miss {
+    border-left-color: #777;
+    background-color: #f4f4f4;
+}
+
+.battle_log {
+    margin-top: 18px;
+    padding-top: 12px;
+    border-top: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+}
+
+.battle_log h2 {
+    margin: 0 0 8px;
+    font-size: 16px;
+}
+
+#battle_log_list {
+    display: block;
+    width: auto;
+    padding: 0;
+    margin: 0;
+    border-top: none;
+    height: 360px;
+    overflow-y: auto;
+    padding-right: 6px;
+}
+
+#battle_log_list li {
+    display: block;
+    margin: 0 0 8px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #fafafa;
+    font-size: 13px;
+    line-height: 1.5;
+    cursor: default;
+}
+
+#battle_log_list li:hover {
+    background-color: #fafafa;
+    color: inherit;
+}
+
+#battle_log_list li.log_win {
+    border-left: 6px solid #2eb872;
+    background-color: #f0fff6;
+}
+
+#battle_log_list li.log_lose {
+    border-left: 6px solid #e95050;
+    background-color: #fff4f4;
+}
+
+#battle_log_list li.log_draw {
+    border-left: 6px solid #f0ad4e;
+    background-color: #fff9ed;
+}
+
+#battle_log_list li.log_miss {
+    border-left: 6px solid #777;
+    background-color: #f4f4f4;
+}
+
+@media (max-width: 760px) {
+    .game_board {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .left_side {
+        border-left: none;
+    }
+
+    .status {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .hp_bar {
+        width: 100%;
+        max-width: 260px;
+    }
+
+    .player,
+    .enemy {
+        flex: none;
+        text-align: left;
+    }
+
+    .hand_result {
+        width: 100%;
+        min-width: 0;
+        gap: 12px;
+        order: 2;
+    }
+
+    .enemy {
+        order: 3;
+    }
+
+    .hand_result_item {
+        width: 110px;
+    }
+
+    .hand_result_item img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .vs_text {
+        font-size: 24px;
+    }
+
+    .vs_area {
+        min-width: 72px;
+    }
+
+    #damage_summary {
+        font-size: 13px;
+    }
+
+    .janken_btns {
+        gap: 10px;
+    }
+
+    .janken_btn {
+        width: 92px;
+        height: 92px;
+        font-size: 16px;
+    }
+
+    .rule_grid {
+        grid-template-columns: 1fr;
+    }
+
+    #result_area {
+        width: auto;
+        padding: 14px 0 0;
+        border-left: none;
+        border-top: 1px solid #ccc;
+    }
+}

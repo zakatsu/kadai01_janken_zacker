@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <script src="js/jquery-2.1.3.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <title>0.5秒の勇者</title>
+</head>
+
+<body>
+
+    <header>
+        <h1>0.5秒の勇者</h1>
+    </header>
+
+    <main>
+        <div class="game_board">
+            <!-- ルール説明 -->
+            <section class="rule_panel">
+                <h2>ルール</h2>
+                <p class="rule_intro">じゃんけんで勝つとダメージを与えられます。ただし、ダメージは「出す手」と「選択速度」で変わります。</p>
+                <div class="rule_grid">
+                    <div class="rule_card">
+                        <h3>出す手</h3>
+                        <div class="rule_row">
+                            <span>グー</span>
+                            <strong>30</strong>
+                        </div>
+                        <div class="rule_row">
+                            <span>チョキ</span>
+                            <strong>20</strong>
+                        </div>
+                        <div class="rule_row">
+                            <span>パー</span>
+                            <strong>15</strong>
+                        </div>
+                    </div>
+                    <div class="rule_card">
+                        <h3>選択速度</h3>
+                        <div class="rule_row">
+                            <span>0.25秒以内（PERFECT）</span>
+                            <strong>×2.0</strong>
+                        </div>
+                        <div class="rule_row">
+                            <span>0.50秒以内（GOOD）</span>
+                            <strong>×1.5</strong>
+                        </div>
+                        <div class="rule_row">
+                            <span>1.00秒以内（NORMAL）</span>
+                            <strong>×1.0</strong>
+                        </div>
+                        <div class="rule_row rule_miss">
+                            <span>1.00秒超過</span>
+                            <strong>MISS</strong>
+                        </div>
+                    </div>
+                    <div class="rule_card rule_formula">
+                        <h3>計算</h3>
+                        <p>ダメージ = 出す手の数値 × 選択速度の倍率</p>
+                        <p>例: グーGOOD = 30 × 1.5 = <strong>45</strong></p>
+                        <p>MISSは自分に <strong>20</strong> ダメージ</p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="left_side">
+                <!-- ステータスエリア -->
+                <section class="status">
+                    <!-- プレイヤー側の表示 -->
+                    <div class="player">
+                        <h2>プレイヤー</h2>
+                        <div class="player_hp">
+                            HP:100/100
+                        </div>
+                        <div class="hp_bar">
+                            <div class="hp_bar_fill player_hp_bar"></div>
+                        </div>
+                        <div class="player_image">
+                            <img src="images/player.svg" alt="プレイヤー">
+                        </div>
+                    </div>
+
+                    <!-- 選んだ手の結果表示 -->
+                    <div class="hand_result">
+                        <div class="hand_result_item">
+                            <img id="player_hand_image" src="" alt="あなたの手">
+                            <p id="player_hand_label"></p>
+                        </div>
+                        <div class="vs_area">
+                            <div class="vs_text">VS</div>
+                            <p id="damage_summary"></p>
+                        </div>
+                        <div class="hand_result_item">
+                            <img id="enemy_hand_image" src="" alt="敵の手">
+                            <p id="enemy_hand_label"></p>
+                        </div>
+                    </div>
+
+                    <!-- 敵側の表示 -->
+                    <div class="enemy">
+                        <h2>敵</h2>
+                        <div class="enemy_hp">
+                            HP:100/100
+                        </div>
+                        <div class="hp_bar">
+                            <div class="hp_bar_fill enemy_hp_bar"></div>
+                        </div>
+                        <div class="enemy_image">
+                            <img src="images/enemy.svg" alt="敵">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- バトルエリア -->
+                <section class="janken">
+                    <div class="start_button">
+                        <button class="start_btn">バトル開始</button>
+                    </div>
+
+                    <!-- カウントダウン -->
+                    <div id="countdown"></div>
+                    
+                    <!-- 勝負手 -->
+                    <div class="janken_btns">
+                        <button id="gu_btn" class="janken_btn">グー</button>
+                        <button id="cho_btn" class="janken_btn">チョキ</button>
+                        <button id="par_btn" class="janken_btn">パー</button>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- 結果表示 -->
+            <section id="result_area">
+                <h2>リザルト</h2>
+                <p>勝敗: <span id="battle_result"></span></p>
+                <p>反応速度: <span id="reaction_time"></span></p>
+                <p>ランク: <span id="speed_rank"></span></p>
+                <p>あなた: <span id="player_hand"></span></p>
+                <p>敵: <span id="enemy_hand"></span></p>
+                <p>技: <span id="skill_name"></span></p>
+                <p>ダメージ: <span id="damage"></span></p>
+                <div class="battle_log">
+                    <h2>バトルログ</h2>
+                    <ol id="battle_log_list"></ol>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer></footer>
+
+    <script>
+
+        let playerHp = 100;
+        let enemyHp = 100;
+        const handData = {
+            rock: { label: "グー", skillName: "パワーパンチ", damage: 30 },
+            scissors: { label: "チョキ", skillName: "スピードスラッシュ", damage: 20 },
+            paper: { label: "パー", skillName: "バリアウェーブ", damage: 15 }
+        };
+        let shootTime = 0;
+        let reactionTime = 0;
+        let speedRank = "";
+        let speedRate = 1;
+        let damage = 0;
+        let isRoundActive = false;
+        let currentEnemyHand = null;
+
+        // スタートボタンをクリックしたときの処理
+        function startRound() {
+        // ゲーム終了後のリスタートならHPを初期化する
+            if (playerHp <= 0 || enemyHp <= 0) {
+                playerHp = 100;
+                enemyHp = 100;
+                renderHp();
+                $("#battle_log_list").empty();
+            }
+
+            $("#battle_result").text("");
+            $("#reaction_time").text("");
+            $("#speed_rank").text("");
+            $("#player_hand").text("");
+            $("#enemy_hand").text("");
+            $("#skill_name").text("");
+            $("#damage").text("");
+            $("#result_area").removeClass("result_win result_lose result_draw result_miss");
+            currentEnemyHand = null;
+            resetHandResult();
+
+            // スタートボタンを非表示にする
+            $(".start_btn").hide();
+
+            // じゃんけんボタンを一時的に無効化・非表示にする
+            $(".janken_btn").prop("disabled", true).hide();
+
+            // カウントダウンを3秒から表示する
+            $("#countdown").text("3");
+            setTimeout(() => $("#countdown").text("2"), 1000);
+            setTimeout(() => $("#countdown").text("1"), 2000);
+            setTimeout(() => {
+                // SHOOT! タイミングで反応測定を開始し、ボタンを有効化する
+                $("#countdown").text("SHOOT!");
+                currentEnemyHand = getEnemyHand();
+                showEnemyHandPreview(currentEnemyHand);
+                shootTime = Date.now();
+                isRoundActive = true;
+                $(".janken_btn").prop("disabled", false).show();
+            }, 3000);
+
+            // 1秒後にまだ選ばれていなければMISS判定を行う
+            setTimeout(() => {
+                if (isRoundActive) {
+                    // MISS処理
+                    isRoundActive = false;
+                    speedRank = "MISS";
+                    speedRate = 0;
+                    damage = 20;
+                    updateHp("lose", damage);
+                    $("#battle_result").text("MISS");
+                    $("#reaction_time").text("1.00秒");
+                    $("#speed_rank").text("MISS");
+                    $("#player_hand").text("未選択");
+                    $("#enemy_hand").text(currentEnemyHand ? handData[currentEnemyHand].label : "-");
+                    $("#skill_name").text("反応遅れ");
+                    $("#damage").text("20ダメージ");
+                    showMissResult();
+                    setResultStyle("miss");
+                    addBattleLog("MISS！反応が遅れた！20ダメージを受けた！", "miss");
+                    $("#countdown").text("");
+                    $(".janken_btn").hide();
+                    const gameEnd = checkGameEnd();
+                    if (gameEnd !== "continue") {
+                        $(".start_btn").text("リスタート").show();
+                    } else {
+                        $(".start_btn").text("次のラウンド").show();
+                    }
+                }
+            }, 4000);
+        }
+
+        // じゃんけんの手を選択したときの処理
+        function chooseHand(hand) {
+            if (!isRoundActive) return; // ラウンド中でなければ無視する
+            isRoundActive = false; // 1ラウンドを終了扱いにする
+
+            // 反応時間を測定する
+            reactionTime = (Date.now() - shootTime) / 1000;
+            
+            // 反応速度ランクを決定する
+            if (reactionTime <= 0.25) {
+                speedRank = "PERFECT";
+                speedRate = 2.0;
+            } else if (reactionTime <= 0.5) {
+                speedRank = "GOOD";
+                speedRate = 1.5;
+            } else if (reactionTime <= 1.0) {
+                speedRank = "NORMAL";
+                speedRate = 1.0;
+            } else {
+                speedRank = "MISS";
+                speedRate = 0;
+            }
+
+            let result;
+            let enemyHand = currentEnemyHand;
+
+            if (speedRank === "MISS") {
+                // MISSの場合は固定20ダメージでプレイヤーにダメージ
+                result = "miss";
+                damage = 20;
+                updateHp("lose", damage);
+            } else {
+                // 勝敗を判定する
+                result = judge(hand, enemyHand);
+
+                // ダメージを計算する
+                damage = calculateDamage(result, hand, speedRate);
+
+                // HPを更新する
+                updateHp(result, damage);
+            }
+
+            // 評価・ダメージを表示する
+            $("#battle_result").text(getResultLabel(result));
+            $("#reaction_time").text(reactionTime.toFixed(2) + "秒");
+            $("#speed_rank").text(speedRank);
+            $("#player_hand").text(handData[hand].label);
+            $("#enemy_hand").text(enemyHand ? handData[enemyHand].label : "-");
+            $("#skill_name").text(handData[hand].skillName);
+            $("#damage").text(damage + "ダメージ");
+            if (result === "miss") {
+                showMissResult();
+            } else {
+                showHandResult(hand, enemyHand, result, damage);
+            }
+            setResultStyle(result);
+            addBattleLog(createBattleLogMessage(result, hand, enemyHand, damage), result);
+
+// ラウンドが終わったので手ボタンを隠す
+        $(".janken_btn").hide();
+
+        // ゲーム終了判定とCPUの手表示
+        const gameEnd = checkGameEnd();
+        if (gameEnd !== "continue") {
+            if (gameEnd === "clear") {
+                $("#countdown").text("勝利！");
+                $(".start_btn").text("リスタート").show();
+            } else if (gameEnd === "gameover") {
+                $("#countdown").text("敗北…");
+                $(".start_btn").text("リスタート").show();
+            }
+        } else if (result === "miss") {
+            $("#countdown").text("");
+            $(".start_btn").text("次のラウンド").show();
+        } else if (enemyHand) {
+            $("#countdown").text("");
+            $(".start_btn").text("次のラウンド").show();
+        }
+        }
+
+        // CPUの手をランダムに決定する
+        function getEnemyHand() {
+            const hands = ["rock", "scissors", "paper"];
+            return hands[Math.floor(Math.random() * hands.length)];
+        }
+
+        // じゃんけんの勝敗判定を返す
+        function judge(playerHand, enemyHand) {
+            if (playerHand === enemyHand) {
+                return "draw";
+            }
+
+            if (
+                (playerHand === "rock" && enemyHand === "scissors") ||
+                (playerHand === "scissors" && enemyHand === "paper") ||
+                (playerHand === "paper" && enemyHand === "rock")
+            ) {
+                return "win";
+            }
+
+            return "lose";
+        }
+
+        // ダメージを計算する
+        function calculateDamage(result, hand, speedRate) {
+            if (result === "draw") {
+                return 0;
+            }
+
+            if (result === "miss") {
+                return 20;
+            }
+
+            const baseDamage = handData[hand].damage;
+            return Math.floor(baseDamage * speedRate);
+        }
+
+        // 画面表示用に勝敗ラベルを返す
+        function getResultLabel(result) {
+            if (result === "win") return "勝ち";
+            if (result === "lose") return "負け";
+            if (result === "draw") return "あいこ";
+            if (result === "miss") return "MISS";
+            return "";
+        }
+
+        // 勝敗に合わせて結果エリアの色を切り替える
+        function setResultStyle(result) {
+            $("#result_area")
+                .removeClass("result_win result_lose result_draw result_miss")
+                .addClass(`result_${result}`);
+        }
+
+        // 手の画像ファイル名を返す
+        function getHandImagePath(hand) {
+            const handImages = {
+                rock: "images/gu.png",
+                scissors: "images/choki.png",
+                paper: "images/par.png"
+            };
+
+            return handImages[hand];
+        }
+
+        // 手の結果表示をリセットする
+        function resetHandResult() {
+            $("#player_hand_image").attr("src", "");
+            $("#enemy_hand_image").attr("src", "");
+            $("#player_hand_label").text("");
+            $("#enemy_hand_label").text("");
+            $("#damage_summary")
+                .text("")
+                .removeClass("damage_win damage_lose damage_draw damage_miss");
+        }
+
+        // SHOOT時に敵の手だけを先に表示する
+        function showEnemyHandPreview(enemyHand) {
+            $("#player_hand_image").attr("src", "");
+            $("#player_hand_label").text("");
+            $("#enemy_hand_image").attr("src", getHandImagePath(enemyHand));
+            $("#enemy_hand_label").text(handData[enemyHand].label);
+        }
+
+        // 選んだ手とCPUの手を大きく表示する
+        function showHandResult(playerHand, enemyHand, result, damage) {
+            $("#player_hand_image").attr("src", getHandImagePath(playerHand));
+            $("#enemy_hand_image").attr("src", getHandImagePath(enemyHand));
+            $("#player_hand_label").text(handData[playerHand].label);
+            $("#enemy_hand_label").text(handData[enemyHand].label);
+            showDamageSummary(result, damage);
+        }
+
+        // MISS時は手を出せなかったことが分かる表示にする
+        function showMissResult() {
+            $("#player_hand_image").attr("src", "");
+            $("#player_hand_label").text("未選択");
+            if (currentEnemyHand) {
+                $("#enemy_hand_image").attr("src", getHandImagePath(currentEnemyHand));
+                $("#enemy_hand_label").text(handData[currentEnemyHand].label);
+            } else {
+                $("#enemy_hand_image").attr("src", "");
+                $("#enemy_hand_label").text("-");
+            }
+            showDamageSummary("miss", 20);
+        }
+
+        // VSの下に与ダメージ・被ダメージを表示する
+        function showDamageSummary(result, damage) {
+            let message = "ダメージなし";
+
+            if (result === "win") {
+                message = `敵に ${damage}ダメージ`;
+            } else if (result === "lose" || result === "miss") {
+                message = `自分に ${damage}ダメージ`;
+            }
+
+            $("#damage_summary")
+                .text(message)
+                .removeClass("damage_win damage_lose damage_draw damage_miss")
+                .addClass(`damage_${result}`);
+        }
+
+        // 1ラウンド分のログ文を作る
+        function createBattleLogMessage(result, playerHand, enemyHand, damage) {
+            const playerLabel = handData[playerHand].label;
+            const skillName = handData[playerHand].skillName;
+
+            if (result === "miss") {
+                return `MISS！${playerLabel}を選んだが反応が遅れた。20ダメージを受けた！`;
+            }
+
+            const enemyLabel = handData[enemyHand].label;
+
+            if (result === "win") {
+                return `勝ち！あなた:${playerLabel} / 敵:${enemyLabel}。${skillName}で敵に${damage}ダメージ！`;
+            }
+
+            if (result === "lose") {
+                return `負け！あなた:${playerLabel} / 敵:${enemyLabel}。${damage}ダメージを受けた！`;
+            }
+
+            return `あいこ！あなた:${playerLabel} / 敵:${enemyLabel}。ダメージなし。`;
+        }
+
+        // 最新のログを上に追加する
+        function addBattleLog(message, result) {
+            $("#battle_log_list").prepend(`<li class="log_${result}">${message}</li>`);
+        }
+
+        // HPを更新して画面にも反映する
+        function updateHp(result, damage) {
+            if (result === "win") {
+                enemyHp -= damage;
+            } else if (result === "lose" || result === "miss") {
+                playerHp -= damage;
+            }
+
+            if (playerHp < 0) playerHp = 0;
+            if (enemyHp < 0) enemyHp = 0;
+
+            renderHp();
+        }
+
+        // HPの数値とバー表示を更新する
+        function renderHp() {
+            $(".player_hp").text(`HP:${playerHp}/100`);
+            $(".enemy_hp").text(`HP:${enemyHp}/100`);
+            $(".player_hp_bar").css("width", `${playerHp}%`);
+            $(".enemy_hp_bar").css("width", `${enemyHp}%`);
+        }
+
+        // ゲーム終了判定を返す
+        function checkGameEnd() {
+            if (enemyHp <= 0) {
+                return "clear";
+            }
+
+            if (playerHp <= 0) {
+                return "gameover";
+            }
+
+            return "continue";
+        }
+
+        $(function() {
+            // start_btnを押した時にstartRound()が始まるようにする
+            $(".start_btn").on("click", function() {
+                startRound();
+            });
+
+            // じゃんけんのbtnを押した時にchooseHand()が始まるようにする
+            $("#gu_btn").on("click", () => chooseHand("rock"));
+            $("#cho_btn").on("click", () => chooseHand("scissors"));
+            $("#par_btn").on("click", () => chooseHand("paper"));
+        });
+
+    </script>
+</body>
+
+</html>

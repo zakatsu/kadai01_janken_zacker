@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="130" viewBox="0 0 100 130" style="image-rendering: pixelated;">
+  <!-- Background -->
+  <rect width="100" height="130" fill="#D4E8FF"/>
+
+  <!-- Hair (rows 0-1) -->
+  <rect x="20" y="0"  width="60" height="10" fill="#FFD700"/>
+  <rect x="10" y="10" width="80" height="10" fill="#FFD700"/>
+
+  <!-- Face row 2 -->
+  <rect x="10" y="20" width="80" height="10" fill="#FFCBA4"/>
+
+  <!-- Eyes row 3 -->
+  <rect x="10" y="30" width="10" height="10" fill="#FFCBA4"/>
+  <rect x="20" y="30" width="10" height="10" fill="#3B1A00"/>
+  <rect x="30" y="30" width="40" height="10" fill="#FFCBA4"/>
+  <rect x="70" y="30" width="10" height="10" fill="#3B1A00"/>
+  <rect x="80" y="30" width="10" height="10" fill="#FFCBA4"/>
+
+  <!-- Face row 4 -->
+  <rect x="10" y="40" width="80" height="10" fill="#FFCBA4"/>
+
+  <!-- Mouth row 5 -->
+  <rect x="10" y="50" width="20" height="10" fill="#FFCBA4"/>
+  <rect x="30" y="50" width="40" height="10" fill="#C06040"/>
+  <rect x="70" y="50" width="20" height="10" fill="#FFCBA4"/>
+
+  <!-- Chin row 6 -->
+  <rect x="10" y="60" width="80" height="10" fill="#FFCBA4"/>
+
+  <!-- Armor chest row 7 -->
+  <rect x="10" y="70" width="80" height="10" fill="#1E5FAD"/>
+
+  <!-- Shoulders (gold) + armor row 8 -->
+  <rect x="0"  y="80" width="10" height="10" fill="#FFD700"/>
+  <rect x="10" y="80" width="80" height="10" fill="#1E5FAD"/>
+  <rect x="90" y="80" width="10" height="10" fill="#FFD700"/>
+
+  <!-- Arms (skin hands) + armor row 9 -->
+  <rect x="0"  y="90" width="10" height="10" fill="#FFCBA4"/>
+  <rect x="10" y="90" width="80" height="10" fill="#1E5FAD"/>
+  <rect x="90" y="90" width="10" height="10" fill="#FFCBA4"/>
+
+  <!-- Lower armor + emblem row 10 -->
+  <rect x="10" y="100" width="80" height="10" fill="#1E5FAD"/>
+  <rect x="30" y="100" width="10" height="10" fill="#FFFFFF"/>
+  <rect x="60" y="100" width="10" height="10" fill="#FFFFFF"/>
+
+  <!-- Legs row 11 -->
+  <rect x="20" y="110" width="20" height="10" fill="#0D3A6E"/>
+  <rect x="60" y="110" width="20" height="10" fill="#0D3A6E"/>
+
+  <!-- Boots row 12 -->
+  <rect x="10" y="120" width="30" height="10" fill="#6B3A2A"/>
+  <rect x="60" y="120" width="30" height="10" fill="#6B3A2A"/>
+</svg>

@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="130" viewBox="0 0 100 130" style="image-rendering: pixelated;">
+  <!-- Background -->
+  <rect width="100" height="130" fill="#1A0000"/>
+
+  <!-- Horns rows 0-1 -->
+  <rect x="10" y="0"  width="10" height="10" fill="#550000"/>
+  <rect x="80" y="0"  width="10" height="10" fill="#550000"/>
+  <rect x="10" y="10" width="20" height="10" fill="#550000"/>
+  <rect x="70" y="10" width="20" height="10" fill="#550000"/>
+
+  <!-- Head row 2 -->
+  <rect x="0"  y="20" width="10" height="10" fill="#550000"/>
+  <rect x="10" y="20" width="80" height="10" fill="#CC2200"/>
+  <rect x="90" y="20" width="10" height="10" fill="#550000"/>
+
+  <!-- Eyes row 3 -->
+  <rect x="0"  y="30" width="10" height="10" fill="#550000"/>
+  <rect x="10" y="30" width="80" height="10" fill="#CC2200"/>
+  <rect x="90" y="30" width="10" height="10" fill="#550000"/>
+  <rect x="20" y="30" width="10" height="10" fill="#FFD700"/>
+  <rect x="70" y="30" width="10" height="10" fill="#FFD700"/>
+  <rect x="23" y="33" width="4"  height="4"  fill="#110000"/>
+  <rect x="73" y="33" width="4"  height="4"  fill="#110000"/>
+
+  <!-- Snout row 4 -->
+  <rect x="0"  y="40" width="10" height="10" fill="#550000"/>
+  <rect x="10" y="40" width="80" height="10" fill="#CC2200"/>
+  <rect x="90" y="40" width="10" height="10" fill="#550000"/>
+
+  <!-- Teeth row 5 -->
+  <rect x="0"  y="50" width="10" height="10" fill="#550000"/>
+  <rect x="10" y="50" width="80" height="10" fill="#CC2200"/>
+  <rect x="90" y="50" width="10" height="10" fill="#550000"/>
+  <rect x="20" y="50" width="10" height="10" fill="#FFFFFF"/>
+  <rect x="40" y="50" width="10" height="10" fill="#FFFFFF"/>
+  <rect x="60" y="50" width="10" height="10" fill="#FFFFFF"/>
+  <rect x="80" y="50" width="10" height="10" fill="#FFFFFF"/>
+
+  <!-- Jaw row 6 -->
+  <rect x="0"  y="60" width="10" height="10" fill="#550000"/>
+  <rect x="10" y="60" width="80" height="10" fill="#880000"/>
+  <rect x="90" y="60" width="10" height="10" fill="#550000"/>
+
+  <!-- Wings + body rows 7-8 -->
+  <rect x="0"  y="70" width="20" height="10" fill="#4A0080"/>
+  <rect x="20" y="70" width="10" height="10" fill="#550000"/>
+  <rect x="30" y="70" width="40" height="10" fill="#CC2200"/>
+  <rect x="70" y="70" width="10" height="10" fill="#550000"/>
+  <rect x="80" y="70" width="20" height="10" fill="#4A0080"/>
+
+  <rect x="0"  y="80" width="20" height="10" fill="#4A0080"/>
+  <rect x="20" y="80" width="10" height="10" fill="#550000"/>
+  <rect x="30" y="80" width="40" height="10" fill="#CC2200"/>
+  <rect x="70" y="80" width="10" height="10" fill="#550000"/>
+  <rect x="80" y="80" width="20" height="10" fill="#4A0080"/>
+
+  <!-- Wings tips + body row 9 -->
+  <rect x="0"  y="90" width="10" height="10" fill="#330055"/>
+  <rect x="10" y="90" width="10" height="10" fill="#4A0080"/>
+  <rect x="20" y="90" width="10" height="10" fill="#550000"/>
+  <rect x="30" y="90" width="40" height="10" fill="#CC2200"/>
+  <rect x="70" y="90" width="10" height="10" fill="#550000"/>
+  <rect x="80" y="90" width="10" height="10" fill="#4A0080"/>
+  <rect x="90" y="90" width="10" height="10" fill="#330055"/>
+
+  <!-- Lower body row 10 -->
+  <rect x="20" y="100" width="10" height="10" fill="#550000"/>
+  <rect x="30" y="100" width="40" height="10" fill="#CC2200"/>
+  <rect x="70" y="100" width="10" height="10" fill="#550000"/>
+
+  <!-- Tail row 11 -->
+  <rect x="30" y="110" width="10" height="10" fill="#550000"/>
+  <rect x="40" y="110" width="20" height="10" fill="#CC2200"/>
+  <rect x="60" y="110" width="10" height="10" fill="#550000"/>
+
+  <!-- Claws row 12 -->
+  <rect x="30" y="120" width="10" height="10" fill="#330000"/>
+  <rect x="40" y="120" width="20" height="10" fill="#330000"/>
+  <rect x="60" y="120" width="10" height="10" fill="#330000"/>
+</svg>
