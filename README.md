@@ -11,7 +11,7 @@
 ただし、素早く出した手を間違えて負けた手を出すと点数が大きくなる。
 
 ## ③アプリのデプロイURL
-デプロイしている場合はURLを記入（任意）
+https://zakatsu.github.io/kadai01_janken_zacker/
 
 ## ④アプリのログイン用IDまたはPassword（ある場合）
 なし（ログイン不要）
